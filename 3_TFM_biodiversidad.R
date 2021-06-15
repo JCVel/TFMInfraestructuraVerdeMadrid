@@ -1,7 +1,7 @@
 ################################################################################
 # Archivo: 3_TFM_biodiversidad.R
 # Autor: Juan Carlos VelAzquez Melero 
-# Fecha: 20/04/2021
+# Fecha: marzo - junio 2021
 # DescripciOn: 
 # En el marco del TFM del MTIG de la UAH, este script lee una capa rAster que
 # contiene un Indice de Biodiversidad a 1km x 1km
@@ -14,9 +14,8 @@
 # Datos de salida:
 #   - Capa del indicador de biodiversidad recortada acorde al Area de estudio y
 #     remuestreada a 25x25m
-# 
-# NOTA: (1) Las tildes han sido sustituidas por mayUsculas
 ################################################################################
+
 # InstalaciOn y carga de las librerias necesarias
 # install.packages("raster")
 library(raster)

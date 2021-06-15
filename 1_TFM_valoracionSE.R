@@ -1,7 +1,7 @@
 ################################################################################
 # Archivo: 1_TFM_valoracionSE.R
 # Autor: Juan Carlos VelAzquez Melero 
-# Fecha: 17/04/2021
+# Fecha: marzo - junio 2021
 # DescripciOn: 
 # En el marco del TFM del MTIG de la UAH, este script genera un mapa en formato
 # vectorial y rAster de la contribuciOn de los usos del suelo a los Servicios 
@@ -17,16 +17,18 @@
 #   contribuciOn de dicho polIgono a los SE
 #   - capa rAster 25x25m de la capa anterior en base al campo "valorPonder"
 
-# NOTA: (1) Las tildes han sido sustituidas por mayUsculas
-#       (2) Este script solo ha sido testeado para trabajar con datos SIOSE14 Madrid
+# NOTA: Este script solo ha sido testeado para trabajar con datos SIOSE14 Madrid
 ################################################################################
-# InstalaciOn y carga de las librerias necesarias
-# install.packages("sf")
-# install.packages("raster")
-# install.packages("fasterize")
-library(sf)
-library(raster)
-library(fasterize)
+rm(list = ls(all = TRUE)) # Eliminar objetos previos, si los hubiera
+# InstalaciOn de paquetes tomada de Antoine Soetewey (https://statsandr.com)
+packages <- c("sf", "raster", "fasterize")
+# IntalaciOn de paquetes
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+  }
+# Carga de paquetes
+invisible(lapply(packages, library, character.only = TRUE))
 
 ################################################################################
 ##################____CARPETAS DE ENTRADA Y SALIDA_____#########################
@@ -93,6 +95,7 @@ st_write(t_poligonosSE, pathT_poligonosSE, append = F)
 t_poligonosSE_raster <- raster(t_poligonosSE, res = 25)
 # Se vuelca la info de t_poligonosSE (vectorial) al raster anterior
 t_poligonosSE_raster <- fasterize(t_poligonosSE, t_poligonosSE_raster, field = "valorPonder", fun="sum")
+
 # Se exporta el raster con la contribuciOn de los usos del suelo a los SE
 pathRaster <- file.path(exportPathComplete, "t_poligonosSE.tif")
 writeRaster(t_poligonosSE_raster, pathRaster, overwrite = T)
